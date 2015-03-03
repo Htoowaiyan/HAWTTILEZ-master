@@ -100,14 +100,18 @@ public class GameScreen implements Screen{
         textButtonStyleB.up = skin.getDrawable("xbox-controller-b-button-md");
         textButtonStyleX.up = skin.getDrawable("xbox-controller-x-button-md");
         textButtonStyleY.up = skin.getDrawable("xbox-controller-y-button-md");
-        buttonA = new TextButton("Button1", textButtonStyleA);
-        buttonB = new TextButton("Button2", textButtonStyleB);
-        buttonX = new TextButton("Button3", textButtonStyleX);
-        buttonY = new TextButton("Button4", textButtonStyleY);
-        buttonA.setBounds(600,600,100,100);
-        buttonB.setBounds(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2,50,50);
+        buttonA = new TextButton("", textButtonStyleA);
+        buttonB = new TextButton("", textButtonStyleB);
+        buttonX = new TextButton("", textButtonStyleX);
+        buttonY = new TextButton("", textButtonStyleY);
+        buttonA.setBounds(750,20,70,70);
+        buttonB.setBounds(810,80,70,70);
+        buttonX.setBounds(690,80,70,70);
+        buttonY.setBounds(750,140,70,70);
         stage.addActor(buttonA);
         stage.addActor(buttonB);
+        stage.addActor(buttonX);
+        stage.addActor(buttonY);
         buttonB.addListener(new InputListener() {
 
 
@@ -135,7 +139,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void hide() {
-        Gdx.app.log("GameScreen", "hide called");
+        Gdx.app.log("GameScreen", "Width: "+Gdx.graphics.getWidth()+" and Height: "+Gdx.graphics.getHeight());
     }
 
     @Override

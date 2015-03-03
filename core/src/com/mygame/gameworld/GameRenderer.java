@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.mygame.gameobjects.Block;
 import com.mygame.helpers.Touchpad;
 
@@ -43,8 +44,44 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         cam.update();
-        blockSprite.setX(blockSprite.getX() + touchpad.getTouchpad().getKnobPercentX()*blockSpeed);
-        blockSprite.setY(blockSprite.getY() + touchpad.getTouchpad().getKnobPercentY()*blockSpeed);
+
+        final Rectangle bounds = blockSprite.getBoundingRectangle();
+
+        // Get the bounding rectangle that our screen.  If using a camera you would create this based on the camera's
+        // position and viewport width/height instead.
+        final Rectangle screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        final Rectangle screenBounds = new Rectangle(0, 0, cam.viewportWidth,cam.viewportHeight);
+
+        // Sprite
+        float left = bounds.getX();
+        float bottom = bounds.getY();
+        float top = bottom + bounds.getHeight();
+        float right = left + bounds.getWidth();
+
+
+        // Screen
+        float screenLeft = screenBounds.getX();
+        float screenBottom = screenBounds.getY();
+        float screenTop = screenBottom + screenBounds.getHeight();
+        float screenRight = screenLeft + screenBounds.getWidth();
+
+        float newX=bounds.getX()+ touchpad.getTouchpad().getKnobPercentX()*blockSpeed;
+        float newY=bounds.getY()+ touchpad.getTouchpad().getKnobPercentY() * blockSpeed;
+
+        if(newX>screenLeft && newX+bounds.getWidth()<screenRight){
+            blockSprite.setX(newX);
+        }
+        if(newY>screenBottom && newY+bounds.getHeight()<screenTop){
+            blockSprite.setY(newY);
+        }
+
+//        blockSprite.setX(blockSprite.getX() + touchpad.getTouchpad().getKnobPercentX()*blockSpeed);
+//
+//
+//
+//        blockSprite.setY(blockSprite.getY() + touchpad.getTouchpad().getKnobPercentY() * blockSpeed);
+
+
         batch.begin();
         blockSprite.draw(batch);
         batch.end();
@@ -63,7 +100,7 @@ public class GameRenderer {
         this.gameHeight = gameHeight;
         this.midPointY = midPointY;
 
-        float aspectratio=(float) Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
+        float aspectratio=(float)(16/9); //Gdx.graphics.getWidth()/(float)Gdx.graphics.getHeight();
 
         cam.setToOrtho(false, 10f * aspectratio, 10f);
 
